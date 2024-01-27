@@ -1,7 +1,8 @@
-)The temperature gradient in a furnace wall, heated from one side at a particular instant of time is given by the equation 
-dT/dx=-40x³ + 72x²+24x-70
-where 'x' is in metres. Write a C program to calculate the temperature profile (T as a function of x) for the range 0≤x≤0.5 in steps of 0.025m. Given T = 1000K at x = 0. Use Runge-K
-utta fourth order method
+The temperature gradient in a furnace wall, heated from one side at a particular instant of time is given by the equation dT/dx=-40x³ + 72x²+24x-70 where 'x' is in metres.
+Write a C program to calculate the temperature profile (T as a function of x) for the range 0≤x≤0.5 in steps of 0.025m. Given T = 1000K at x = 0. Use Runge-Kutta fourth order method
+
+(if values changed then make changes in line number 31,32,33,34)
+
 #include <stdio.h>
 #include <math.h>
 // Function to calculate the temperature gradient
