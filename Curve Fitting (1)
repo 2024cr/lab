@@ -1,27 +1,27 @@
 The free settling velocities of particles of different sizes are given in the following table. The data refers to settling in air at 
 1 atm and 20°C at a density difference of 5000 kg/m³.
 
-particle diameter(um)		velocity(mm/s)
-		5		                   3.187
-		10			               14.87
+particle diameter(um)		           velocity(mm/s)
+		5		                 3.187
+		10			         14.87
 		15	                	 33.47                (if these values changed 
 		20		              	 58.22                 then make changes in 
 		25 	              		 59.31                  line number 35,36)
 		30	              		 125
 		35 	              		 168.3
-		40                     215.3
+		40                               215.3
  		45 		              	 266.4
 		50 		              	 320
 		55		              	 378
 		60 		              	 439
 		65		               	 500
 		70		              	 560
-		75			               625
-		80			               695
-		85 			               759
-		90 			               823
-		95			               890
-		100			               957
+		75			         625
+		80			         695
+		85 			         759
+		90 			         823
+		95			         890
+		100			         957
 
 Write a C program to fit an equation of the type Ut = A(Dp) to the data. Tabulate the values calculated from the equation along with
 the given data. Plot the data using MS-Excel.
