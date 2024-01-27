@@ -1,0 +1,37 @@
+2)A polymer blend is to be formed from three feed streams A, B and C having the following compositions in weight percent. Write a C++ program to determine A,B and C for 7550 kg of blend 
+production. Using the gauss seidel method.
+ Component A B C Blend
+ 1) 55 35 5 30
+ 2) 35 50 40 30
+ 3) 10 15 55 40
+Guass-seidel method:
+
+(if above values changed then make changes in line number 14,15,16,17)
+
+#include <stdio.h>
+#include <math.h>
+int main() {
+ double a1 = 0.55, b1 = 0.35, c1 = 0.05, blend1 = 0.30;
+ double a2 = 0.35, b2 = 0.50, c2 = 0.40, blend2 = 0.30;
+ double a3 = 0.10, b3 = 0.15, c3 = 0.55, blend3 = 0.40;
+ double initialA = 0.33, initialB = 0.33, initialC = 0.33;
+ double newA, newB, newC;
+ double tolerance = 0.0001;
+ int maxIterations = 1000;
+ for (int k = 0; k < maxIterations; ++k) {
+ newA = (blend1 - b1 * initialB - c1 * initialC) / a1;
+ newB = (blend2 - a2 * newA - c2 * initialC) / b2;
+ newC = (blend3 - a3 * newA - b3 * newB) / c3;
+ if (fabs(newA - initialA) < tolerance && fabs(newB - initialB) < tolerance && fabs(newC - initialC) < tolerance) {
+ break;
+ }
+ initialA = newA;
+ initialB = newB;
+ initialC = newC;
+ }
+ printf("The compositions for 7550 kg of blend production using the Gauss-Seidel method are:\n");
+ printf("Component A: %f kg\n",newA * 7550);
+ printf("Component B: %f kg\n",newB * 7550);
+ printf("Component C: %f kg\n",newC * 7550);
+ return 0;
+}
