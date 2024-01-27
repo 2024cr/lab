@@ -1,0 +1,40 @@
+% Given parameters
+Diameter = 0.05; % Pipe diameter in meters (50mm to meters)
+Roughness = 0; % Assume smooth pipe for this example (you can change if needed)
+
+% Reynolds numbers ranging from 5000 to 100000 in steps of 5000
+ReynoldsNumbers = 5000:5000:100000;
+
+% Initialize arrays to store results
+frictionFactors = zeros(size(ReynoldsNumbers));
+
+% Calculate friction factor for each Reynolds number
+for i = 1:length(ReynoldsNumbers)
+    Re = ReynoldsNumbers(i);
+    f_guess = 0.01; % Initial guess for friction factor
+    error = 1; % Initial error
+    
+    % Iterate until convergence using the Colebrook equation
+    while error > 1e-6
+        term1 = Roughness / (3.7 * Diameter);
+        term2 = 2.51 / (Re * sqrt(f_guess));
+        f_new = 1 / (log10(term1 + term2))^2;
+        error = abs(f_new - f_guess);
+        f_guess = f_new;
+    end
+    
+    frictionFactors(i) = f_guess;
+end
+
+% Plot the results
+figure;
+semilogx(ReynoldsNumbers, frictionFactors, 'LineWidth', 2);
+title('Friction Factor vs Reynolds Number');
+xlabel('Reynolds Number');
+ylabel('Friction Factor');
+grid on;
+
+% Tabulate the results
+table(ReynoldsNumbers', frictionFactors', 'VariableNames', {'ReynoldsNumber', 'FrictionFactor'})
+
+
