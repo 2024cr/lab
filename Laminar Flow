@@ -1,0 +1,22 @@
+% Given parameters
+Diameter = 0.05; % Pipe internal diameter in meters (50mm to meters)
+umax = 1; % Maximum velocity in m/s
+r0 = Diameter / 2; % Pipe radius
+
+% Generate radial positions
+r = linspace(0, r0, 100); % Adjust the number of points as needed
+
+% Calculate velocity profile
+u = umax * (1 - (r.^2 / r0^2));
+
+% Plot the velocity profile
+figure;
+plot(r, u, 'LineWidth', 2);
+title('Laminar Flow Velocity Profile');
+xlabel('Radius (m)');
+ylabel('Velocity (m/s)');
+grid on;
+
+% Add labels to the plot
+legend('Velocity Profile');
+
