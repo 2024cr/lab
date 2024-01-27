@@ -1,7 +1,6 @@
 1)Write a c program to determine the molar volume of CO2 at 30.5 atm and 273.15 K using van der Waals equation of state (P+a/V²)(V-b)=RT using Newton Raphson method. Critical
 temperature of CO₂ is 304K and critical pressure is 72.9 atm. van der Waals equation constants may be calculated as a=27R^2 Tc²/64Pc and b = RTc/8Pc.
 
-
 (T,P,Tc,Pc)
 (If these values changed then make changes in line number 37,38,39,40)
 
