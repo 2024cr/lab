@@ -1,0 +1,59 @@
+The free settling velocities of particles of different sizes are given in the following table. The data refers to settling in air at 
+1 atm and 20°C at a density difference of 5000 kg/m³.
+
+particle diameter(um)		velocity(mm/s)
+		5		                   3.187
+		10			               14.87
+		15	                	 33.47                (if these values changed 
+		20		              	 58.22                 then make changes in 
+		25 	              		 59.31                  line number 35,36)
+		30	              		 125
+		35 	              		 168.3
+		40                     215.3
+ 		45 		              	 266.4
+		50 		              	 320
+		55		              	 378
+		60 		              	 439
+		65		               	 500
+		70		              	 560
+		75			               625
+		80			               695
+		85 			               759
+		90 			               823
+		95			               890
+		100			               957
+
+Write a C program to fit an equation of the type Ut = A(Dp) to the data. Tabulate the values calculated from the equation along with
+the given data. Plot the data using MS-Excel.
+
+
+
+#include <stdio.h>
+#include <math.h>
+
+int main() {
+    double diameter[] = {5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100};
+    double velocity[] = {3.871, 14.87, 33.47, 58.22, 59.31, 125, 168.3, 215.3, 266.4, 320, 378, 439, 500, 560, 625, 695, 759, 823, 890, 957};
+    int n = sizeof(diameter) / sizeof(diameter[0]);
+    double sumLnDiameter = 0;
+    double sumLnVelocity = 0;
+    double sumLnDiameterSquared = 0;
+    double sumLnDiameterTimesLnVelocity = 0;
+    for (int i = 0; i < n; i++) {
+        sumLnDiameter += log(diameter[i]);
+        sumLnVelocity += log(velocity[i]);
+        sumLnDiameterSquared += pow(log(diameter[i]), 2);
+        sumLnDiameterTimesLnVelocity += log(diameter[i]) * log(velocity[i]);
+    }
+    double B = (n * sumLnDiameterTimesLnVelocity - sumLnDiameter * sumLnVelocity) / (n * sumLnDiameterSquared - pow(sumLnDiameter, 2));
+    double lnA = (sumLnVelocity - B * sumLnDiameter) / n;
+    double A = exp(lnA);
+    printf("The equation of the best fit is: Ut = %lf(Dp) ^ %lf\n", A, B);
+    printf("The calculated value of velocity are:\n");
+    for(int j=0; j<n; j++){
+        double y = 0.210994 * pow(diameter[j], 1.85244);
+        printf("%lf\n", y);
+    }
+    return 0;
+}
+
