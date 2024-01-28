@@ -1,0 +1,19 @@
+Dp=10:5:100;
+vf=[3.871 4.87 32.47 58.22 59.31 125 168.3 215.3 266.43 378 439 500 560 625 695 759 823 890 957];
+Dp1=log(Dp);
+vf1=log(vf);
+sumx=sum(Dp1);
+sumy=sum(vf1);
+sumxy=sum(Dp1.*vf1);
+sumx2=sum(Dp1.^2);
+b=((20*sumxy)-(sumx*sumy))/((20*sumx2)-(sumx*sumx));
+a=exp((sumy-(b*sumx))/20);
+for i=1:20
+newvf=(a*(Dp.^b));
+disp(newvf);
+end
+disp(sumx);
+disp(sumy);
+disp(sumxy);
+disp(sumx2);
+disp(a);disp(b)
