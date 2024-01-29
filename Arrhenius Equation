@@ -1,0 +1,48 @@
+The reaction rate constant for the bi-molecular formation of methy-ethyl-ether alcoholic solution is given as a function of temperature os follows
+T(centigrade) 
+3  6  9  12  15  18  21  24  27  30
+and
+10^5 k(liter/gmol sec)
+7.9   11.8  16.7  24.5   34.6   48.6   69.0   100   141   208
+
+write a c-program to determine the activation energy and the frequency factor using arrhenius equation
+
+
+#include <stdio.h>
+#include <math.h>
+
+#define R 8.314 // Universal gas constant in J/(mol K)
+
+void calculateArrhenius(int n, double T[], double k[]) {
+    double Ea, A, sum_xy = 0, sum_x2 = 0, sum_x = 0, sum_y = 0;
+    
+    // Calculate the ln of k
+    double ln_k[n];
+    for (int i = 0; i < n; i++) {
+        ln_k[i] = log(k[i]);
+        sum_xy += T[i] * ln_k[i];
+        sum_x2 += pow(T[i], 2);
+        sum_x += T[i];
+        sum_y += ln_k[i];
+    }
+    
+    // Calculate the activation energy (Ea) and the frequency factor (A)
+    Ea = (n * sum_xy - sum_x * sum_y) / (n * sum_x2 - pow(sum_x, 2));
+    A = exp((sum_y - Ea * sum_x) / n);
+    
+    printf("Activation Energy (Ea): %.2lf J/mol", Ea * 1000);
+    printf("Frequency Factor (A): %.2lf L/gmol sec", A);
+}
+
+int main() {
+    int n = 10; // Number of data points
+    
+    double T[] = {3, 6, 9, 12, 15, 18, 21, 24, 27, 30}; // Temperatures in degrees Celsius
+    double k[] = {7.9 * pow(10, -5), 11.8 * pow(10, -5), 16.7 * pow(10, -5), 24.5 * pow(10, -5), 
+                  34.6 * pow(10, -5), 48.6 * pow(10, -5), 69.0 * pow(10, -5), 100 * pow(10, -5),
+                  141 * pow(10, -5), 208 * pow(10, -5)}; // Rates in L/gmol sec
+    
+    calculateArrhenius(n, T, k);
+    
+    return 0;
+}
