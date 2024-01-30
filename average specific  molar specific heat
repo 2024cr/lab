@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <math.h>
+
+// Function to calculate specific molar heat at a given temperature (J/(mol*K))
+double specific_molar_heat(double temperature, double Cp_m_T) { // Cp_m_T is the specific molar heat (J/(mol*K)) at a given temperature (T)
+    double q = 1000; // Heat flow (J/s)
+    double delta_t = 1; // Time interval (s)
+    double delta_T = temperature - 25; // Temperature difference (K)
+
+    double Cp_m = (q / 6.02e23) * (delta_T / delta_t); // Specific molar heat (J/(mol*K))
+
+    return Cp_m;
+}
+
+// Function to calculate average specific molar heat
+double average_specific_molar_heat(double M, double T_1, double T_2, int n, double Cp_m_T_1, double Cp_m_T_2) {
+    double Cp_m_avg = 0;
+    double M_avg = 0;
+    double delta_T = T_2 - T_1; // Temperature difference (K)
+    double delta_T_interval = delta_T / n; // Temperature interval (K)
+
+    for (int i = 0; i < n; i++) {
+        double T = T_1 + i * delta_T_interval; // Temperature at the current interval (K)
+        double Cp_m = specific_molar_heat(T, Cp_m_T_1); // Specific molar heat at the current interval (J/(mol*K))
+        double M_interval = M * (delta_T_interval / delta_T); // Molar mass at the current interval (g/mol)
+
+        Cp_m_avg += Cp_m * M_interval; // Accumulate product of specific molar heat and molar mass at each interval
+        M_avg += M_interval; // Accumulate molar mass at each interval
+    }
+
+    return Cp_m_avg / M_avg; // Calculate average specific molar heat
+}
+
+int main() {
+    double M = 18.015, T_1 = 25.0, T_2 = 100.0, Cp_m_T_1 = 33.55, Cp_m_T_2 = 20.79; // Input variables
+    int n = 10; // Number of intervals
+
+    double Cp_m_avg = average_specific_molar_heat(M, T_1, T_2, n, Cp_m_T_1, Cp_m_T_2);
+
+    printf("Average specific molar heat: %.6f J/(mol*K)\n", Cp_m_avg);
+
+    return 0;
+}
