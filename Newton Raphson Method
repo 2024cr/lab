@@ -1,0 +1,23 @@
+#include <stdio.h>
+#include <math.h>
+
+double newton_raphson(double (*f)(double), double (*f_derivative)(double), double x0 , double eps) {
+    double x1 = x0, x2;
+    while (fabs(x1 - x2) > eps && fabs(x2 - x1 * x1 * x1 / (3 * x1 * x1 - 2 * x1 * x1 * x1)) > eps) {
+        x2 = x1 - (f(x1) / f_derivative(x1));
+        x1 = x2;
+    }
+    return x2;
+}
+
+double f(double x) { return x * x * x -10 * x * x +50 * x -100; } // Example function used here
+double f_derivative(double x) { return x * x * x -20 * x * x +50; } // Derivative of the function
+
+int main() {
+    double x0 = -5.0;
+    double eps = pow(10.0,-6); // Desired accuracy
+    double root = newton_raphson(f , f_derivative , x0 , eps);
+
+    printf("Root: %.6f\n", root);
+    return  0;
+}
