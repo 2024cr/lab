@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <math.h>
+
+#define PI 3.1415926535897932384626433832795028841971693993751058607844375
+#define dx (L / n) // step size
+
+double tenoeartature_gradient(double T_in, double T_out, double L, double n, double k, double rho) {
+    double T[n], dT[n];
+    int i;
+
+    // Initialize array with boundary conditions
+    for (i = 0; i < n; i++) {
+        T[i] = T_in;
+    }
+
+    // Calculate temperature gradient using finite difference method
+    for (i = 1; i < n; i++) {
+        dT[i] = (T[i+1] - T[i-1]) / (2 * dx);
+        T[i] = T[i-1] + dT[i] * dx;
+    }
+
+    // Calculate temperature gradient at the center of the furnace wall
+    double xc = L / 2;
+    int ic = n / 2;
+    double Tc = T[ic];
+    double dTc = (T[ic+1] - T[ic-1]) / (2 * dx);
+    double gradient = dTc;
+
+    // Display results
+    printf("Temperature gradient at the center of the furnace wall: %.6f\n", gradient);
+    printf("Temperature distribution:\n");
+    for (i = 0; i < n; i++) {
+        printf("%.6f\n", T[i]);
+    }
+
+    return gradient;
+}
+
+int main() {
+    double T_in = 20.0, T_out = 1200.0, L = 0.2, n = 100;
+    double k = 20.0, rho = 7850.0;
+    double gradient = tenoeartature_gradient(T_in, T_out, L, n, k, rho);
+
+    return 0;
+}
