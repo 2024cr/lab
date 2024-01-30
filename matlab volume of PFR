@@ -1,0 +1,32 @@
+% Packed Bed Reactor (PFR) Volume Calculation
+% Inputs:
+%   - diameter (m): d (scalar)
+%   - height (m): h (scalar)
+%   - number of packed beds (scalar): n_beds
+%   - void fraction (-): e (scalar)
+% Outputs:
+%   - total volume of PFR (m^3): V_total (scalar)
+
+% Define function to calculate volume of single packed bed
+function V = calc_packed_bed_volume(d, h, e)
+    % Calculate volume of single packed bed
+    V = (e * pi * d^2 * h) / 4; % Equation: V = e * A * h / 4
+end
+
+% Prompt user for input
+d = input('Enter the diameter of the reactor (m): ');
+h = input('Enter the height of the reactor (m): ');
+e = input('Enter the void fraction (-): ');
+n_beds = input('Enter the number of packed beds: ');
+
+% Calculate volume of each packed bed
+V_bed = zeros(n_beds, 1);
+for I = 1:n_beds
+    V_bed(i) = calc_packed_bed_volume(d, h/n_beds+i-1*h/(n_beds-1), e);
+end
+
+% Calculate total volume of PFR
+V_total = V_bed(1:n_beds); % Equation: V_total = V_1 + V_2 + ... + V_n_beds
+
+% Display results
+fprintf('Total volume of PFR (m^3): %.2f\n', V_total);
