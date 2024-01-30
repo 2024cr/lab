@@ -1,0 +1,33 @@
+write a given equation in line number 23 after 'return'
+
+
+
+
+#include <stdio.h>
+#include <math.h>
+
+double regula_falsi(double (*f)(double), double a, double b, double eps) {
+    double x1 = a, x2 = b, x3;
+    while (fabs(x2 - x1) > eps) {
+        x3 = x1 - (f(x1) * (x2 - x1)) / (f(x2) - f(x1));
+        if (f(x3) * f(x1) < 0) {
+            x2 = x1;
+            x1 = x3;
+        } else {
+            x1 = x3;
+        }
+    }
+    return x1;
+}
+
+double f(double x) { return x * x * x - 10 * x * x + 50 * x - 100; } // Example function used here
+
+int main() {
+    double a = -5.0;
+    double b = -2.0;
+    double eps = pow(10.0,-6); // Desired accuracy
+    double root = regula_falsi(f , a , b , eps);
+ < PRINT RESULT >
+    printf("Root: %.6f\n", root);
+    return 0;
+}
