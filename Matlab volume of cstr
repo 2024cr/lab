@@ -1,0 +1,29 @@
+% Continuous Stirred Tank Reactor (CSTR) Volume Calculation
+% Inputs:
+%   - flow rate (m^3/s): Q (scalar)
+%   - concentration (mol/L): C (scalar)
+%   - volumetric reaction rate constant (L/mol*s): k (scalar)
+%   - volume of reactor (L): V (scalar)
+% Outputs:
+%   - total volume of CSTR (L): V_total (scalar)
+
+% Define function to calculate volume of CSTR
+function V = calc_cstr_volume(Q, C, k, V)
+    % Calculate volume of CSTR using material balance equation for closed system
+    V = Q * t / (1 - C / C_eq); % Equation: V = Q * t / (1 - C / C_eq) where C_eq = C + k * V / Q
+end
+
+% Prompt user for input
+Q = input('Enter the flow rate (m^3/s): ');
+C = input('Enter the concentration (mol/L): ');
+k = input('Enter the volumetric reaction rate constant (L/mol*s): ');
+V = input('Enter the volume of reactor (L): ');
+
+% Calculate concentration at equilibrium
+C_eq = C + k * V / Q;
+
+% Calculate volume of CSTR
+V_total = calc_cstr_volume(Q, C, k, V);
+
+% Display results
+fprintf('Total volume of CSTR (L): %.2f\n', V_total);
