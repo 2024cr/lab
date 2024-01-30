@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include <math.h>
+
+// Function to calculate molar volume of a mixture of gases using Redlich-Kwong EOS
+double molar_volume(double M1, double M2, double x1, double x2, double Tc1, double Pc1, double omega1, double A1, double Tc2, double Pc2, double omega2, double A2, double P, double T) {
+    const double R = 8.314; // Universal gas constant (J/mol*K)
+    const double B1 = A1 * R / (Pc1 * Tc1); // Redlich-Kwong constant for gas 1
+    const double B2 = A2 * R / (Pc2 * Tc2); // Redlich-Kwong constant for gas 2
+    const double C1 = (0.42748 * R * pow(Tc1, 2)) / Pc1; // Redlich-Kwong constant for gas 1
+    const double C2 = (0.42748 * R * pow(Tc2, 2)) / Pc2; // Redlich-Kwong constant for gas 2
+    double Z1, Z2; // Compressibility factors for each gas
+    double V1, V2; // Partial volumes for each gas
+    Z1 = (P / (x1 * R * T)) * pow(1 + x1 * (omega1 - B1) / (R * T), -B1 / (x1 * (omega1 - B1))); // Calculate compressibility factor for gas 1
+    Z2 = (P / (x2 * R * T)) * pow(1 + x2 * (omega2 - B2) / (R * T), -B2 / (x2 * (omega2 - B2))); // Calculate compressibility factor for gas 2
+    V1 = Z1 * R * T / (P * M1); // Calculate partial volume for gas 1
+    V2 = Z2 * R * T / (P * M2); // Calculate partial volume for gas 2
+    double Vmix = x1 * V1 + x2 * V2; // Calculate molar volume of mixture using additive volume principle
+    return Vmix; // Return molar volume of mixture
+}
+
+int main() {
+    const double M1 = 28.013, M2 = 32.065, x1 = 0.7, x2 = 0.3, Tc1 = 304.2, Pc1 = 73.8, omega1 = 0.3745, A1 = 0.42748, Tc2 = 366.7, Pc2 = 51.6, omega2 = 0.3745, A2 = 0.42748, P = 10.0, T = 300.0; // Input variables for molar_volume function (M1, M2, x1, x2, Tc1, Pc1, omega1, A1, Tc2, Pc2, omega2, A2)
+    double Vmix = molar_volume(M1, M2, x1, x2, Tc1, Pc1, omega1, A1, Tc2, Pc2, omega2, A2, P, T); // Call molar_volume function with input variables from main function (M1, M2, x1, x2, Tc1, Pc1, omega1, A1, Tc2, Pc2, omega2, A2) to calculate molar volume of mixture using Redlich-Kwong EOS
+
+    printf("Molar volume of the mixture: %.6f m^3/mol\n", Vmix); // Display molar volume of mixture to the user
+    return 0; // Indicate successful program execution
+}
