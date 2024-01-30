@@ -1,0 +1,68 @@
+% Double Pipe Heat Exchanger Design Calculation
+% Inputs:
+%   - flow rate of hot fluid (m^3/h): Q_h (scalar)
+%   - flow rate of cold fluid (m^3/h): Q_c (scalar)
+%   - inlet temperature of hot fluid (C): T_h_in (scalar)
+%   - inlet temperature of cold fluid (C): T_c_in (scalar)
+%   - specific heat capacity of hot fluid (J/(kg*C)): cp_h (scalar)
+%   - specific heat capacity of cold fluid (J/(kg*C)): cp_c (scalar)
+%   - density of hot fluid (kg/m^3): rho_h (scalar)
+%   - density of cold fluid (kg/m^3): rho_c (scalar)
+%   - thermal conductivity of hot fluid (W/(m*C)): k_h (scalar)
+%   - thermal conductivity of cold fluid (W/(m*C)): k_c (scalar)
+% Outputs:
+%   - length of heat exchanger (m): L (scalar)
+%   - number of transfer units (dimensionless): NTU (scalar)
+%   - overall heat transfer coefficient (W/(m^2*C)): U (scalar)
+
+% Define function to calculate design parameters
+function [L, NTU, U] = calc_double_pipe_design(Q_h, Q_c, T_h_in, T_c_in, cp_h, cp_c, rho_h, rho_c, k_h, k_c)
+    % Calculate mass flow rates and densities
+    m_h = Q_h / (cp_h * rho_h); % Hot fluid mass flow rate (kg/s)
+    m_c = Q_c / (cp_c * rho_c); % Cold fluid mass flow rate (kg/s)
+
+    % Calculate inlet temperatures
+    T_h = T_h_in; % Hot fluid inlet temperature (C)
+    T_c = T_c_in; % Cold fluid inlet temperature (C)
+
+    % Calculate outlet temperatures using energy balance equation
+    Q_h_c = Q_h * (T_h - T_h_in); % Heat transferred from hot fluid to cold fluid (W)
+    Q_c_h = Q_c * (T_c_in - T_c); % Heat transferred from cold fluid to hot fluid (W)
+    Q_c_c = Q_c * (T_c_out - T_c_in); % Heat transferred within cold fluid (W)
+    Q_h_h = Q_h * (T_h_out - T_h_in); % Heat transferred within hot fluid (W)
+    Q_total = Q_h_c + Q_c_h + Q_c_c + Q_h_h; % Total heat transferred (W)
+    T_h_out = T_h_in + Q_h_c / Q_h; % Hot fluid outlet temperature (C)
+    T_c_out = T_c_in + Q_c_h / Q_c; % Cold fluid outlet temperature (C)
+
+    % Calculate overall heat transfer coefficient
+    U = (Q_h_c + Q_c_h) / (A * (T_h_out - T_c_out)); % Equation: U = (Q_h_c + Q_c_h) / (A * (T_h_out - T_c_out))
+
+    % Calculate heat transfer area
+    A = m_h * cp_h * (T_h_out - T_h_in) / U; % Equation: A = m_h * cp_h * (T_h_out - T_h_in) / U
+
+    % Calculate length of heat exchanger
+    L = A / (2 * pi * rho_h * k_h); % Equation: L = A / (2 * pi * rho_h * k_h)
+
+    % Calculate number of transfer units
+    NTU = U * A / (m_c * cp_c * (T_c_out - T_c_in)); % Equation: NTU = U * A / (m_c * cp_c * (T_c_out - T_c_in))
+end
+
+% Prompt user for input
+Q_h = input('Enter the flow rate of hot fluid (m^3/h): ');
+Q_c = input('Enter the flow rate of cold fluid (m^3/h): ');
+T_h_in = input('Enter the inlet temperature of hot fluid (C): ');
+T_c_in = input('Enter the inlet temperature of cold fluid (C): ');
+cp_h = input('Enter the specific heat capacity of hot fluid (J/(kg*C)): ');
+cp_c = input('Enter the specific heat capacity of cold fluid (J/(kg*C)): ');
+rho_h = input('Enter the density of hot fluid (kg/m^3): ');
+rho_c = input('Enter the density of cold fluid (kg/m^3): ');
+k_h = input('Enter the thermal conductivity of hot fluid (W/(m*C)): ');
+k_c = input('Enter the thermal conductivity of cold fluid (W/(m*C)): ');
+
+% Calculate design parameters
+[L, NTU, U] = calc_double_pipe_design(Q_h, Q_c, T_h_in, T_c_in, cp_h, cp_c, rho_h, rho_c, k_h, k_c);
+
+% Display results
+fprintf('Length of heat exchanger (m): %.2f\n', L);
+fprintf('Number of transfer units: %.2f\n', NTU);
+fprintf('Overall heat transfer coefficient (W/(m^2*C)): %.2f\n', U);
