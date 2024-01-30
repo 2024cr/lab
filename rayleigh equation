@@ -1,0 +1,23 @@
+#include <stdio.h>
+#include <math.h>
+
+// Function to calculate frequency of oscillation using Rayleigh's equation
+double rayleigh(double density_medium, double density_sphere, double radius, double acceleration_due_to_gravity) {
+    double density_diff = density_sphere - density_medium; // Density difference
+    double radius_diff = radius; // Radius of the sphere
+    double g = acceleration_due_to_gravity; // Acceleration due to gravity
+
+    double frequency = sqrt(g * density_diff / radius_diff); // Calculate frequency using Rayleigh's equation
+
+    return frequency;
+}
+
+int main() {
+    double density_medium = 1.2, density_sphere = 2.6, radius = 0.01, acceleration_due_to_gravity = 9.81; // Input variables
+
+    double frequency = rayleigh(density_medium, density_sphere, radius, acceleration_due_to_gravity);
+
+    printf("Frequency of oscillation: %.6f Hz\n", frequency);
+
+    return 0;
+}
