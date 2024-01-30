@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <math.h>
+
+// Function to calculate mass-specific heat at a given temperature
+double specific_heat(double mass, double temperature, double Cp_T) {
+    double q = 1000; // Heat flow (J/s)
+    double delta_t = 1; // Time interval (s)
+    double delta_T = temperature - 25; // Temperature difference (K)
+
+    double Cp = (q / mass) * (delta_T / delta_t); // Specific heat (J/(kg*K))
+
+    return Cp;
+}
+
+// Function to calculate average specific heat
+double average_specific_heat(double mass, double T_1, double T_2, int n, double Cp_T_1, double Cp_T_2) {
+    double Cp_avg = 0;
+    double mass_avg = 0;
+    double delta_T = T_2 - T_1; // Temperature difference (K)
+    double delta_T_interval = delta_T / n; // Temperature interval (K)
+
+    for (int i= 0; i < n; i++) {
+        double T = T_1 + i * delta_T_interval; // Temperature at the current interval (K)
+        double Cp = specific_heat(mass, T, Cp_T_1); // Specific heat at the current interval (J/(kg*K))
+        double mass_interval = mass * (delta_T_interval / delta_T); // Mass at the current interval (kg)
+
+        Cp_avg += Cp * mass_interval; // Accumulate product of specific heat and mass at each interval
+        mass_avg += mass_interval; // Accumulate mass at each interval
+    }
+
+    return Cp_avg / mass_avg; // Calculate average specific heat
+}
+
+int main() {
+    double mass = 1.0, T_1 = 25.0, T_2 = 100.0, Cp_T_1 = 4.18, Cp_T_2 = 2.1; // Input variables
+    int n = 10; // Number of intervals
+
+    double Cp_avg = average_specific_heat(mass, T_1, T_2, n, Cp_T_1, Cp_T_2);
+
+    printf("Average specific heat: %.6f J/(kg*K)\n", Cp_avg);
+
+    return 0;
+}
