@@ -1,0 +1,24 @@
+#include <stdio.h>
+
+// Function to calculate mass flow rate of each polymer stream and the solvent stream
+void mixer(double q_1, double c_1, double q_2, double c_2, double q_3, double c_3, double Q, double c_desired) {
+    double q_s = 0; // Initial solvent stream is assumed same as initial polymer stream with the lowest q value (q_1 in this case)
+    double q_1_final = (c_1 / c_desired) * Q; // Calculate mass flow rate of polymer stream 1 in the final polymer based on the concentration ratio (c_1 / c_desired)
+    double q_2_final = (c_2 / c_desired) * Q; // Calculate mass flow rate of polymer stream 2 in the final polymer based on the concentration ratio (c_2 / c_desired)
+    double q_3_final = (c_3 / c_desired) * Q; // Calculate mass flow rate of polymer stream 3 in the final polymer based on the concentration ratio (c_3 / c_desired)
+
+    q_s = Q - (q_1_final + q_2_final + q_3_final); // Calculate the mass flow rate of the solvent stream based on the conservation of mass
+
+    printf("Mass flow rate of polymer stream 1: %.6f kg/s\n", q_1_final);
+    printf("Mass flow rate of polymer stream 2: %.6f kg/s\n", q_2_final);
+    printf("Mass flow rate of polymer stream 3: %.6f kg/s\n", q_3_final);
+    printf("Mass flow rate of solvent stream: %.6f kg/s\n", q_s);
+
+    return;
+}
+
+int main() {
+    double q_1 = 100, c_1 = 0.3, q_2 = 200, c_2 = 0.4, q_3 = 300, c_3 = 0.2, Q = 600, c_desired = 0.3; // Input variables for the mixer function (mass flow rates (q) in kg/s for three polymer streams (1-3) with concentrations (c) in kg/kg)
+    mixer(q_1, c_1, q_2, c_2, q_3, c_3, Q, c_desired); // Call the mixer function with input variables from the main function (q_i, c_i) for each polymer stream (i=1..3) with the total mass flow rate (Q) in kg/s for the final polymer stream with the desired concentration (c_desired) in kg/kg)
+    return 0; // Return 0 for successful program execution
+}
