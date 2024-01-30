@@ -1,0 +1,26 @@
+% Batch Reactor Residence Time Calculation
+% Inputs:
+%   - initial concentration (mol/L): C0 (scalar)
+%   - final concentration (mol/L): C (scalar)
+%   - reaction rate constant (L/mol*s): k (scalar)
+%   - volume of reactor (L): V (scalar)
+% Outputs:
+%   - residence time (s): t (scalar)
+
+% Define function to calculate residence time
+function t = calc_residence_time(C0, C, k, V)
+    % Calculate residence time using integrated form of the first-order rate law
+    t = log(C0/C) / (k * V); % Equation: t = -1/k * log(C0/C)
+end
+
+% Prompt user for input
+C0 = input('Enter the initial concentration (mol/L): ');
+C = input('Enter the final concentration (mol/L): ');
+k = input('Enter the reaction rate constant (L/mol*s): ');
+V = input('Enter the volume of reactor (L): ');
+
+% Calculate residence time
+t = calc_residence_time(C0, C, k, V);
+
+% Display results
+fprintf('Residence time (s): %.2f\n', t);
