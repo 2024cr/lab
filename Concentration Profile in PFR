@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <math.h>
+
+double concentration_profile(double C_0, double k, double V, double q, double x) {
+    double C = C_0; // initial concentration at x=0 (reactor entrance)  // x is the distance from the reactor entrance
+
+    // Calculate concentration profile using differential mass balance equation
+    for (double z = 0; z < x; z += 0.01) { // integration step size
+        double dC = (-k * C) / q; // reaction rate
+        C -= dC * q * 0.01; // concentration at z+0.01
+    }
+
+    return C;
+}
+
+int main() {
+    double C_0 = 1.0, k = 0.1, V = 10.0, q = 2.0;
+    double x = 5.0; // distance from the reactor entrance
+    double C = concentration_profile(C_0, k, V, q, x);
+
+    printf("Concentration at x=%.2f: %.6f\n", x, C);
+
+    return 0;
+}
